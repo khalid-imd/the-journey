@@ -7,6 +7,7 @@ import (
 	"backend-journey/repositories"
 	"encoding/json"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/go-playground/validator/v10"
@@ -27,12 +28,12 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
 	userId := int(userInfo["user_id"].(float64))
 
-	request := new(journeydto.CreateJourneyRequest)
-	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
-		json.NewEncoder(w).Encode(response)
-		return
+	dataContex := r.Context().Value("dataFile")
+	filename := dataContex.(string)
+
+	request := journeydto.CreateJourneyRequest{
+		Title:       r.FormValue("title"),
+		Description: r.FormValue("description"),
 	}
 
 	validation := validator.New()
@@ -47,6 +48,7 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	journey := models.Journey{
 		UserId:       userId,
 		Title:        request.Title,
+		Image:        filename,
 		Descriptions: request.Description,
 	}
 
@@ -71,6 +73,10 @@ func (h *handlerJourney) FindJourneys(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(response)
 	}
 
+	for i, p := range journeys {
+		journeys[i].Image = os.Getenv("PATH_FILE") + p.Image
+	}
+
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: journeys}
 	json.NewEncoder(w).Encode(response)
@@ -88,6 +94,8 @@ func (h *handlerJourney) GetJourney(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(response)
 		return
 	}
+
+	journey.Image = os.Getenv("PATH_FILE") + journey.Image
 
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: http.StatusOK, Data: journey}
