@@ -21,7 +21,7 @@ func RepositoryJourney(db *gorm.DB) *repository {
 }
 
 func (r *repository) CreateJourney(journey models.Journey) (models.Journey, error) {
-	err := r.db.Create(&journey).Error
+	err := r.db.Preload("User").Create(&journey).Error
 
 	return journey, err
 }
@@ -35,7 +35,7 @@ func (r *repository) FindJourneys() ([]models.Journey, error) {
 
 func (r *repository) GetJourney(ID int) (models.Journey, error) {
 	var journey models.Journey
-	err := r.db.First(&journey, ID).Error
+	err := r.db.Preload("User").First(&journey, ID).Error
 
 	return journey, err
 }

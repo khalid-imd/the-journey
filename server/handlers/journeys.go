@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/gorilla/mux"
 )
 
@@ -23,6 +24,8 @@ func HandlerJourney(JourneyRepository repositories.JourneyRepository) *handlerJo
 
 func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
+	userId := int(userInfo["user_id"].(float64))
 
 	request := new(journeydto.CreateJourneyRequest)
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -42,6 +45,7 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	}
 
 	journey := models.Journey{
+		UserId:       userId,
 		Title:        request.Title,
 		Descriptions: request.Description,
 	}
@@ -53,7 +57,7 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseJourney(data)}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: data}
 	json.NewEncoder(w).Encode(response)
 }
 
@@ -86,15 +90,15 @@ func (h *handlerJourney) GetJourney(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	response := dto.SuccessResult{Code: http.StatusOK, Data: convertResponseJourney(journey)}
+	response := dto.SuccessResult{Code: http.StatusOK, Data: journey}
 	json.NewEncoder(w).Encode(response)
 }
 
 func convertResponseJourney(u models.Journey) journeydto.JourneyResponse {
 	return journeydto.JourneyResponse{
-		ID:    u.ID,
-		Title: u.Title,
-		// UserId: u.User.ID,
+		ID:          u.ID,
+		Title:       u.Title,
+		UserId:      u.User.ID,
 		Description: u.Descriptions,
 	}
 }
