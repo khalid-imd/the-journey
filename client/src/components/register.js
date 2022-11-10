@@ -3,18 +3,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 
-const Register = () => {
-  const [show, setShow] = useState(false);
+const Register = ({ show, setShow, setShowLogin }) => {
+  // const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleShow = () => setShow(true);
 
   return (
     <div>
-      <Button variant="primary" onClick={handleShow}>
-        Register
-      </Button>
-
       <Modal className="modal-sm" show={show} onHide={handleClose}>
         <Modal.Body className="p-4">
           <Modal.Title className="items-center mb-3 text-center">

@@ -3,6 +3,7 @@ import Hero from "../components/hero";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import "./index.css";
 import CardImage from "../assets/index-card-image.png";
+import Jumbotron from "../components/jumbotron";
 
 const dataCard = [
   {
@@ -50,7 +51,7 @@ const dataCard = [
 const Index = () => {
   return (
     <div>
-      <Hero />
+      <Jumbotron />
       <Container className="mt-5">
         <div className="mb-4">
           <h1 className="journey">Journey</h1>
