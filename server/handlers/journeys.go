@@ -46,10 +46,10 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	}
 
 	journey := models.Journey{
-		UserId:       userId,
-		Title:        request.Title,
-		Image:        filename,
-		Descriptions: request.Description,
+		UserId:      userId,
+		Title:       request.Title,
+		Image:       filename,
+		Description: request.Description,
 	}
 
 	data, err := h.JourneyRepository.CreateJourney(journey)
@@ -107,6 +107,6 @@ func convertResponseJourney(u models.Journey) journeydto.JourneyResponse {
 		ID:          u.ID,
 		Title:       u.Title,
 		UserId:      u.User.ID,
-		Description: u.Descriptions,
+		Description: u.Description,
 	}
 }

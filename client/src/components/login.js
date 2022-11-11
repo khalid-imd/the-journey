@@ -1,12 +1,53 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../context/userContext";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
+import { API } from "../config/api";
+import { Alert } from "react-bootstrap";
 
 const Login = ({ show, setShow, setShowRegister }) => {
   // const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   // const handleShow = () => setShow(true);
+  const [state, dispatch] = useContext(UserContext);
+  const [message, setMessage] = useState(null);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleOnChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+  console.log(form);
+
+  const navigate = useNavigate();
+
+  const handleOnSubmit = useMutation(async (e) => {
+    try {
+      e.preventDefault();
+      const data = await API.post("/login", form);
+      const alert = <Alert variant="sucsess">Login Success</Alert>;
+      setMessage(alert);
+
+      let payload = data.data.data;
+
+      handleClose();
+      navigate("/");
+      console.log("ini payload", payload);
+      console.log("ini data", data);
+    } catch (e) {
+      console.log(e);
+      const alert = <Alert variant="danger">Login Filed</Alert>;
+      setMessage(alert);
+    }
+  });
 
   return (
     <div>
@@ -15,6 +56,7 @@ const Login = ({ show, setShow, setShowRegister }) => {
           <Modal.Title className="items-center mb-3 text-center">
             Login
           </Modal.Title>
+          {message && message}
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Email</Form.Label>
@@ -22,6 +64,9 @@ const Login = ({ show, setShow, setShowRegister }) => {
                 type="email"
                 placeholder="Enter yout email"
                 autoFocus
+                name="email"
+                value={form?.email}
+                onChange={handleOnChange}
               />
             </Form.Group>
             <Form.Group
@@ -33,13 +78,22 @@ const Login = ({ show, setShow, setShowRegister }) => {
                 type="password"
                 placeholder="Enter your password"
                 autoFocus
+                name="password"
+                value={form?.password}
+                onChange={handleOnChange}
               />
             </Form.Group>
           </Form>
           <p>
             Don't have an account? <strong>click here</strong>
           </p>
-          <Button className="col-12" variant="primary" onClick={handleClose}>
+          <Button
+            onClick={(e) => {
+              handleOnSubmit.mutate(e);
+            }}
+            className="col-12"
+            variant="primary"
+          >
             Login
           </Button>
         </Modal.Body>

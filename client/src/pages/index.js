@@ -1,5 +1,4 @@
 import React from "react";
-import Hero from "../components/hero";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import "./index.css";
 import CardImage from "../assets/index-card-image.png";
@@ -60,7 +59,7 @@ const Index = () => {
           <div className="col-10">
             <Form.Control
               type="search"
-              classname="form-control rounded "
+              className="form-control rounded "
               placeholder="Search"
               aria-label="Search"
               aria-describedby="search-addon"
