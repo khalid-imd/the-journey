@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { Link } from "react-router-dom";
 
 import Icon from "../assets/index-icon.png";
 import Login from "./login";
@@ -17,15 +18,17 @@ function NavBar() {
     <div>
       <Navbar expand="lg">
         <Container>
-          <Navbar.Brand href="#">
-            <img
-              src={Icon}
-              width="160"
-              height="45"
-              className="d-inline-block align-top"
-              alt="React Bootstrap logo"
-            />
-          </Navbar.Brand>
+          <Link to="/home">
+            <Navbar.Brand>
+              <img
+                src={Icon}
+                width="160"
+                height="45"
+                className="d-inline-block align-top"
+                alt="React Bootstrap logo"
+              />
+            </Navbar.Brand>
+          </Link>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav

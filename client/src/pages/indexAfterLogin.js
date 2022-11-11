@@ -3,6 +3,7 @@ import "./indexAfterLogin.css";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
 import NavbarLogin from "../components/navbarLogin";
+import { Link } from "react-router-dom";
 
 const dataCard = [
   {
@@ -73,19 +74,23 @@ const IndexLogin = () => {
         <div className="row">
           {dataCard.map((item) => {
             return (
-              <div className="col-3 mb-5">
-                <Card h-100>
-                  <Card.Img variant="top" src={item.Image} />
-                  <Card.Body>
-                    <Card.Title className="title-card">{item.Title}</Card.Title>
-                    <p className="date-card">
-                      {item.Date} - {item.Author}{" "}
-                    </p>
-                    <Card.Text className="desc-card">
-                      {item.Description}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+              <div className="col-lg-3 col-md-6 mb-5">
+                <Link to="/detail" className="text-decoration-none">
+                  <Card h-100>
+                    <Card.Img variant="top" src={item.Image} />
+                    <Card.Body>
+                      <Card.Title className="title-card">
+                        {item.Title}
+                      </Card.Title>
+                      <p className="date-card">
+                        {item.Date} - {item.Author}{" "}
+                      </p>
+                      <Card.Text className="desc-card">
+                        {item.Description}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Link>
               </div>
             );
           })}

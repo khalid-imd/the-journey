@@ -73,7 +73,7 @@ const Index = () => {
         <div className="row">
           {dataCard.map((item) => {
             return (
-              <div className="col-3 mb-5">
+              <div className="col-lg-3 col-md-6 mb-5">
                 <Card h-100>
                   <Card.Img variant="top" src={item.Image} />
                   <Card.Body>
