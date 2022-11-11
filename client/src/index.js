@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { UserContextProvider } from "./context/userContext";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -14,7 +15,9 @@ root.render(
   <React.StrictMode>
     <UserContextProvider>
       <QueryClientProvider client={client}>
-        <App />
+        <Router>
+          <App />
+        </Router>
       </QueryClientProvider>
     </UserContextProvider>
   </React.StrictMode>

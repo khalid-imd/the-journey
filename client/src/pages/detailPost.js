@@ -1,6 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import Image from "../assets/detail-photo.png";
+import NavbarLogin from "../components/navbarLogin";
 import "./detailPost.css";
 
 const dataDetail = [
@@ -20,6 +21,7 @@ const Detail = () => {
       {dataDetail.map((item) => {
         return (
           <Container>
+            <NavbarLogin />
             <div className="mb-4">
               <div className="row">
                 <h1 className="col-9 title">{item.Title}</h1>

@@ -3,6 +3,7 @@ import "./profile.css";
 import { Card, Container } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
 import UserIcon from "../assets/profile-user.png";
+import NavbarLogin from "../components/navbarLogin";
 
 const dataCard = [
   {
@@ -50,6 +51,7 @@ const dataCard = [
 const Profile = () => {
   return (
     <div>
+      <NavbarLogin />
       <Container className="mt-5">
         <div className="mb-5">
           <h1 className="bookmark">Profile</h1>

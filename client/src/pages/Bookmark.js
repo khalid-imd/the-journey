@@ -2,6 +2,7 @@ import React from "react";
 import "./bookmark.css";
 import { Card, Container } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
+import NavbarLogin from "../components/navbarLogin";
 
 const dataCard = [
   {
@@ -49,6 +50,7 @@ const dataCard = [
 const BookMark = () => {
   return (
     <div>
+      <NavbarLogin />
       <Container className="mt-5">
         <div className="mb-5">
           <h1 className="bookmark">Bookmark</h1>

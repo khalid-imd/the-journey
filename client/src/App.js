@@ -6,72 +6,71 @@ import {
   Link,
   useNavigate,
 } from "react-router-dom";
-// import { useContext, useEffect, useState } from "react";
 import NewJourney from "./pages/newJourney";
 import Profile from "./pages/profile";
 import BookMark from "./pages/bookmark";
 import Detail from "./pages/detailPost";
 import Index from "./pages";
 import IndexLogin from "./pages/indexAfterLogin";
-// import { API, setAuthToken } from "./config/api";
-// import { UserContext } from "./context/userContext";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "./context/userContext";
+import { API, setAuthToken } from "./config/api";
 
 function App() {
-  // const [state, dispatch] = useContext(UserContext);
-  // const [isLoading, setIsLoading] = useState(true);
-  // let navigate = useNavigate();
-  // useEffect(() => {
-  //   // Redirect Auth
-  //   if (localStorage.token) {
-  //     setAuthToken(localStorage.token);
-  //   }
+  const [state, dispatch] = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+  let navigate = useNavigate();
 
-  //   if (state.isLogin === false && !isLoading) {
-  //     navigate("/");
-  //   }
-  // }, [state]);
+  useEffect(() => {
+    // Redirect Auth
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
 
-  // const checkUser = async () => {
-  //   try {
-  //     const response = await API.get("/check-auth");
+    if (state.isLogin === false && !isLoading) {
+      navigate("/");
+    }
+  }, [state]);
 
-  //     // If the token incorrect
-  //     if (response.status === 404) {
-  //       return dispatch({
-  //         type: "AUTH_ERROR",
-  //       });
-  //     }
+  const checkUser = async () => {
+    try {
+      const response = await API.get("/check-auth");
 
-  //     // Get user data
-  //     let payload = response.data.data.user;
-  //     // Get token from local storage
-  //     payload.token = localStorage.token;
+      // If the token incorrect
+      if (response.status === 404) {
+        return dispatch({
+          type: "AUTH_ERROR",
+        });
+      }
 
-  //     // Send data to useContext
-  //     dispatch({
-  //       type: "USER_SUCCESS",
-  //       payload,
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+      // Get user data
+      let payload = response.data.data.user;
+      // Get token from local storage
+      payload.token = localStorage.token;
 
-  // useEffect(() => {
-  //   checkUser();
-  // }, []);
+      // Send data to useContext
+      dispatch({
+        type: "USER_SUCCESS",
+        payload,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<Index />} />
-        <Route exact path="/login" element={<IndexLogin />} />
-        <Route exact path="/profile" element={<Profile />} />
-        <Route exact path="/bookmark" element={<BookMark />} />
-        <Route exact path="/new-journey" element={<NewJourney />} />
-        <Route exact path="/detail" element={<Detail />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route exact path="/" element={<Index />} />
+      <Route exact path="/login" element={<IndexLogin />} />
+      <Route exact path="/profile" element={<Profile />} />
+      <Route exact path="/bookmark" element={<BookMark />} />
+      <Route exact path="/new-journey" element={<NewJourney />} />
+      <Route exact path="/detail" element={<Detail />} />
+    </Routes>
   );
 }
 

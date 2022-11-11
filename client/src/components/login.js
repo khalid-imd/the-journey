@@ -39,7 +39,7 @@ const Login = ({ show, setShow, setShowRegister }) => {
       let payload = data.data.data;
 
       handleClose();
-      navigate("/");
+      navigate("/login");
       console.log("ini payload", payload);
       console.log("ini data", data);
     } catch (e) {

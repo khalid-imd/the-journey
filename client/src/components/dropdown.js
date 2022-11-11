@@ -3,13 +3,14 @@ import User from "../assets/dropdown-user.png";
 import Journey from "../assets/dropdown-journey.png";
 import Bookmark from "../assets/dropdown-bookmark.png";
 import Logout from "../assets/dropdown-logout.png";
+import IconProfile from "../assets/profile-user.png";
 
 const DropdownProfile = () => {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
-          Dropdown Button
+        <Dropdown.Toggle>
+          <img width="25px" src={IconProfile} alt="" />
         </Dropdown.Toggle>
 
         <Dropdown.Menu>

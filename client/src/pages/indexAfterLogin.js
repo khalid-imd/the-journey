@@ -2,6 +2,7 @@ import React from "react";
 import "./indexAfterLogin.css";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
+import NavbarLogin from "../components/navbarLogin";
 
 const dataCard = [
   {
@@ -49,6 +50,7 @@ const dataCard = [
 const IndexLogin = () => {
   return (
     <div>
+      <NavbarLogin />
       <Container className="mt-5">
         <div className="mb-4">
           <h1 className="journey">Journey</h1>
