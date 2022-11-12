@@ -7,9 +7,10 @@ import (
 	"backend-journey/repositories"
 	"encoding/json"
 	"net/http"
-	"time"
+	"strconv"
 
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/gorilla/mux"
 )
 
 type handlerBookmark struct {
@@ -35,12 +36,9 @@ func (h *handlerBookmark) CreateBookmark(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	CreatedAt := time.Now()
-
 	bookmark := models.Bookmark{
 		UserId:    userId,
 		JourneyId: request.JourneyId,
-		CreatedAt: CreatedAt,
 	}
 
 	data, err := h.BookmarkRepository.CreateBookmark(bookmark)
@@ -64,6 +62,44 @@ func convertResponseBookmark(u models.Bookmark) models.Bookmark {
 		User:      u.User,
 		JourneyId: u.JourneyId,
 		Journey:   u.Journey,
-		CreatedAt: u.CreatedAt,
 	}
+}
+
+func (h *handlerBookmark) FindBookmarks(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	bookmarks, err := h.BookmarkRepository.FindBookmarks()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+	}
+
+	// for i, p := range bookmarks {
+	// 	bookmarks[i].Image = os.Getenv("PATH_FILE") + p.Image
+	// }
+
+	w.WriteHeader(http.StatusOK)
+	response := dto.SuccessResult{Code: http.StatusOK, Data: bookmarks}
+	json.NewEncoder(w).Encode(response)
+}
+
+func (h *handlerBookmark) GetBookmark(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	id, _ := strconv.Atoi(mux.Vars(r)["id"])
+
+	var bookmark models.Bookmark
+
+	bookmark, err := h.BookmarkRepository.GetBookmark(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	response := dto.SuccessResult{Code: http.StatusOK, Data: bookmark}
+	json.NewEncoder(w).Encode(response)
 }

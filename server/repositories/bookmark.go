@@ -8,7 +8,7 @@ import (
 
 type BookmarkRepository interface {
 	CreateBookmark(User models.Bookmark) (models.Bookmark, error)
-	FindBookmaks() ([]models.Bookmark, error)
+	FindBookmarks() ([]models.Bookmark, error)
 	GetBookmark(ID int) (models.Bookmark, error)
 	UpdateBookmark(User models.Bookmark) (models.Bookmark, error)
 	DeleteBookmark(User models.Bookmark) (models.Bookmark, error)
