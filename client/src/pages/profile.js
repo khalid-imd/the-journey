@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { API } from "../config/api";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/userContext";
+import { BiBookmark } from "react-icons/bi";
 
 const Profile = () => {
   const [state, dispatch] = useContext(UserContext);
@@ -47,9 +48,15 @@ const Profile = () => {
                   <div className="card h-100">
                     <img src={item?.image} className="card-img-top" alt="..." />
                     <div className="card-body">
-                      <Link to="/DetailJourney">
-                        <h5 className="card-title">{item?.title}</h5>
-                      </Link>
+                      <div className="row">
+                        <div className="col-10">
+                          <h5 className="card-title">{item?.title}</h5>
+                        </div>
+                        <div className="col-2">
+                          <BiBookmark />
+                        </div>
+                      </div>
+
                       <p className="card-text">{item?.descriptions}</p>
                     </div>
                   </div>

@@ -5,6 +5,7 @@ import NavbarLogin from "../components/navbarLogin";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { API } from "../config/api";
+import { BiBookmark } from "react-icons/bi";
 
 const IndexLogin = () => {
   let { data: journeys } = useQuery("journeysCache", async () => {
@@ -50,7 +51,14 @@ const IndexLogin = () => {
                   <div className="card h-100">
                     <img src={item?.image} className="card-img-top" alt="..." />
                     <div className="card-body">
-                      <h5 className="card-title">{item?.title}</h5>
+                      <div className="row">
+                        <div className="col-10">
+                          <h5 className="card-title">{item?.title}</h5>
+                        </div>
+                        <div className="col-2">
+                          <BiBookmark />
+                        </div>
+                      </div>
 
                       <p className="card-text">{item?.descriptions}</p>
                     </div>
@@ -59,7 +67,9 @@ const IndexLogin = () => {
               ))}
             </div>
           ) : (
-            <div>Halo halo haloooooooooo</div>
+            <div>
+              <h1>There's no journal yet...</h1>
+            </div>
           )}
         </div>
       </Container>

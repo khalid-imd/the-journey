@@ -15,6 +15,7 @@ import IndexLogin from "./pages/indexAfterLogin";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "./context/userContext";
 import { API, setAuthToken } from "./config/api";
+import PrivateRoute from "./pages/privateRoute";
 
 function App() {
   const [state, dispatch] = useContext(UserContext);
@@ -65,11 +66,13 @@ function App() {
   return (
     <Routes>
       <Route exact path="/" element={<Index />} />
-      <Route exact path="/home" element={<IndexLogin />} />
-      <Route exact path="/profile" element={<Profile />} />
-      <Route exact path="/bookmark" element={<BookMark />} />
-      <Route exact path="/new-journey" element={<NewJourney />} />
-      <Route exact path="/detail/:id" element={<Detail />} />
+      <Route exact path="/" element={<PrivateRoute />}>
+        <Route exact path="/home" element={<IndexLogin />} />
+        <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/bookmark" element={<BookMark />} />
+        <Route exact path="/new-journey" element={<NewJourney />} />
+        <Route exact path="/detail/:id" element={<Detail />} />
+      </Route>
     </Routes>
   );
 }
