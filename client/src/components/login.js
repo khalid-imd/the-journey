@@ -32,14 +32,23 @@ const Login = ({ show, setShow, setShowRegister }) => {
   const handleOnSubmit = useMutation(async (e) => {
     try {
       e.preventDefault();
+      // const header = {
+      //   headers: {
+      //     Authorization: `Bearer ${localStorage.token}`,
+      //   },
+      // };
       const data = await API.post("/login", form);
       const alert = <Alert variant="sucsess">Login Success</Alert>;
       setMessage(alert);
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: data.data.data,
+      });
 
       let payload = data.data.data;
 
       handleClose();
-      navigate("/login");
+      navigate("/home");
       console.log("ini payload", payload);
       console.log("ini data", data);
     } catch (e) {

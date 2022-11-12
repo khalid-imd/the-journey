@@ -4,51 +4,58 @@ import { Button, Card, Container, Form } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
 import NavbarLogin from "../components/navbarLogin";
 import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import { API } from "../config/api";
 
-const dataCard = [
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-];
+// const dataCard = [
+//   {
+//     Image: CardImage,
+//     Author: "Cipto",
+//     Title: "Bersemayam di tanah Dewata",
+//     Date: "29 July 2020",
+//     Description:
+//       "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
+//   },
+//   {
+//     Image: CardImage,
+//     Author: "Cipto",
+//     Title: "Bersemayam di tanah Dewata",
+//     Date: "29 July 2020",
+//     Description:
+//       "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
+//   },
+//   {
+//     Image: CardImage,
+//     Author: "Cipto",
+//     Title: "Bersemayam di tanah Dewata",
+//     Date: "29 July 2020",
+//     Description:
+//       "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
+//   },
+//   {
+//     Image: CardImage,
+//     Author: "Cipto",
+//     Title: "Bersemayam di tanah Dewata",
+//     Date: "29 July 2020",
+//     Description:
+//       "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
+//   },
+//   {
+//     Image: CardImage,
+//     Author: "Cipto",
+//     Title: "Bersemayam di tanah Dewata",
+//     Date: "29 July 2020",
+//     Description:
+//       "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
+//   },
+// ];
 
 const IndexLogin = () => {
+  let { data: journeys } = useQuery("journeysCache", async () => {
+    const response = await API.get("/journeys");
+    return response.data.data;
+  });
+
   return (
     <div>
       <NavbarLogin />
@@ -71,29 +78,26 @@ const IndexLogin = () => {
             search
           </Button>
         </Form>
-        <div className="row">
-          {dataCard.map((item) => {
-            return (
-              <div className="col-lg-3 col-md-6 mb-5">
-                <Link to="/detail" className="text-decoration-none">
-                  <Card h-100>
-                    <Card.Img variant="top" src={item.Image} />
-                    <Card.Body>
-                      <Card.Title className="title-card">
-                        {item.Title}
-                      </Card.Title>
-                      <p className="date-card">
-                        {item.Date} - {item.Author}{" "}
-                      </p>
-                      <Card.Text className="desc-card">
-                        {item.Description}
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Link>
-              </div>
-            );
-          })}
+        <div className="container">
+          {journeys?.length !== 0 ? (
+            <div className="row row-cols-1 row-cols-md-4 g-4">
+              {journeys?.map((item) => (
+                <div className="col pt-4">
+                  <div className="card h-100">
+                    <img src={item?.image} className="card-img-top" alt="..." />
+                    <div className="card-body">
+                      <Link to="/DetailJourney">
+                        <h5 className="card-title">{item?.title}</h5>
+                      </Link>
+                      <p className="card-text">{item?.descriptions}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>Halo halo haloooooooooo</div>
+          )}
         </div>
       </Container>
     </div>

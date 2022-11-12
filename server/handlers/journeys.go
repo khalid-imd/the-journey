@@ -32,8 +32,8 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 	filename := dataContex.(string)
 
 	request := journeydto.CreateJourneyRequest{
-		Title:       r.FormValue("title"),
-		Description: r.FormValue("description"),
+		Title:        r.FormValue("title"),
+		Descriptions: r.FormValue("description"),
 	}
 
 	validation := validator.New()
@@ -49,7 +49,7 @@ func (h *handlerJourney) CreateJourney(w http.ResponseWriter, r *http.Request) {
 		UserId:      userId,
 		Title:       request.Title,
 		Image:       filename,
-		Description: request.Description,
+		Description: request.Descriptions,
 	}
 
 	data, err := h.JourneyRepository.CreateJourney(journey)
