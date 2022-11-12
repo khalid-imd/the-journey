@@ -1,54 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./profile.css";
 import { Card, Container } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
 import UserIcon from "../assets/profile-user.png";
 import NavbarLogin from "../components/navbarLogin";
-
-const dataCard = [
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-  {
-    Image: CardImage,
-    Author: "Cipto",
-    Title: "Bersemayam di tanah Dewata",
-    Date: "29 July 2020",
-    Description:
-      "Liburan di tahun baru 2020 keberangkatan saya menuju Pulau Dewata Bali.  Sampai lah saya malam itu di Bali Airport menujukan waktu jam 02.00, dan melanjutkan pejalanan yang menyenangkan..",
-  },
-];
+import { useQuery } from "react-query";
+import { API } from "../config/api";
+import { Link } from "react-router-dom";
+import { UserContext } from "../context/userContext";
 
 const Profile = () => {
+  const [state, dispatch] = useContext(UserContext);
+  let { data: journeys } = useQuery("journeysCache", async () => {
+    const response = await API.get("/journeys");
+    const responseProfile = response.data.data.filter(
+      (p) => p.user.id == state.user.id
+    );
+    return responseProfile;
+  });
+
+  console.log(state);
   return (
     <div>
       <NavbarLogin />
@@ -60,30 +31,36 @@ const Profile = () => {
           <div className="d-flex justify-content-center mb-2">
             <img width="100px" src={UserIcon} alt="" />
           </div>
-          <div className="d-flex justify-content-center name-user">User</div>
+          <div className="d-flex justify-content-center name-user">
+            {" "}
+            {state?.user?.fullname}{" "}
+          </div>
           <div className="d-flex justify-content-center email-user">
-            user@mail.com
+            {state?.user?.email}
           </div>
         </div>
-        <div className="row">
-          {dataCard.map((item) => {
-            return (
-              <div className="col-lg-3 col-md-6 mb-5">
-                <Card h-100>
-                  <Card.Img variant="top" src={item.Image} />
-                  <Card.Body>
-                    <Card.Title className="title-card">{item.Title}</Card.Title>
-                    <p className="date-card">
-                      {item.Date} - {item.Author}{" "}
-                    </p>
-                    <Card.Text className="desc-card">
-                      {item.Description}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </div>
-            );
-          })}
+        <div className="container">
+          {journeys?.length !== 0 ? (
+            <div className="row row-cols-1 row-cols-md-4 g-4">
+              {journeys?.map((item) => (
+                <div className="col pt-4">
+                  <div className="card h-100">
+                    <img src={item?.image} className="card-img-top" alt="..." />
+                    <div className="card-body">
+                      <Link to="/DetailJourney">
+                        <h5 className="card-title">{item?.title}</h5>
+                      </Link>
+                      <p className="card-text">{item?.descriptions}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <h1>You haven't journal yet...</h1>
+            </div>
+          )}
         </div>
       </Container>
     </div>

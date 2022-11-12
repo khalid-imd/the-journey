@@ -28,7 +28,7 @@ func (r *repository) CreateJourney(journey models.Journey) (models.Journey, erro
 
 func (r *repository) FindJourneys() ([]models.Journey, error) {
 	var journeys []models.Journey
-	err := r.db.Find(&journeys).Error
+	err := r.db.Preload("User").Find(&journeys).Error
 
 	return journeys, err
 }

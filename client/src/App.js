@@ -69,7 +69,7 @@ function App() {
       <Route exact path="/profile" element={<Profile />} />
       <Route exact path="/bookmark" element={<BookMark />} />
       <Route exact path="/new-journey" element={<NewJourney />} />
-      <Route exact path="/detail" element={<Detail />} />
+      <Route exact path="/detail/:id" element={<Detail />} />
     </Routes>
   );
 }
