@@ -66,13 +66,13 @@ function App() {
   return (
     <Routes>
       <Route exact path="/" element={<Index />} />
-      {/* <Route exact path="/" element={<PrivateRoute />}> */}
-      <Route exact path="/home" element={<IndexLogin />} />
-      <Route exact path="/profile" element={<Profile />} />
-      <Route exact path="/bookmark" element={<BookMark />} />
-      <Route exact path="/new-journey" element={<NewJourney />} />
-      <Route exact path="/detail/:id" element={<Detail />} />
-      {/* </Route> */}
+      <Route exact path="/" element={<PrivateRoute />}>
+        <Route exact path="/home" element={<IndexLogin />} />
+        <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/bookmark" element={<BookMark />} />
+        <Route exact path="/new-journey" element={<NewJourney />} />
+        <Route exact path="/detail/:id" element={<Detail />} />
+      </Route>
     </Routes>
   );
 }

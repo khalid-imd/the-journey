@@ -19,7 +19,7 @@ const Detail = () => {
     <div>
       <NavbarLogin />
       <Container className="mt-5 mb-5">
-        <div className="mb-4">
+        <div className="mb-5">
           <div className="row">
             <h1 className="col-9 title">{journey?.title}</h1>
             <h2 className="col-3 author"> {journey?.user?.fullname} </h2>
