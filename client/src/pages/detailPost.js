@@ -18,7 +18,7 @@ const Detail = () => {
   return (
     <div>
       <NavbarLogin />
-      <Container>
+      <Container className="mt-5 mb-5">
         <div className="mb-4">
           <div className="row">
             <h1 className="col-9 title">{journey?.title}</h1>

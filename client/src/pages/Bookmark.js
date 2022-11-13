@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./bookmark.css";
 import { Container } from "react-bootstrap";
 import NavbarLogin from "../components/navbarLogin";
@@ -6,6 +6,8 @@ import { UserContext } from "../context/userContext";
 import { useQuery } from "react-query";
 import { API } from "../config/api";
 import { BiBookmark } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import ToastUnbookmark from "../atoms/toast-unbookmark";
 
 // const dataCard = [
 //   {
@@ -51,7 +53,10 @@ import { BiBookmark } from "react-icons/bi";
 // ];
 
 const BookMark = () => {
+  const [showToast, setShowToast] = useState(false);
   const [state, dispatch] = useContext(UserContext);
+  let navigate = useNavigate();
+
   let { data: bookmarks, refetch } = useQuery("bookmarkCache", async () => {
     const response = await API.get("/bookmarks");
     const responseBookmark = response.data.data.filter(
@@ -66,6 +71,22 @@ const BookMark = () => {
 
   console.log(bookmarks);
 
+  const handleDelete = async (bookmarkId) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      };
+      const response = await API.delete(`/bookmark/${bookmarkId}`, config);
+      console.log(response);
+      refetch();
+      navigate("/bookmark");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <NavbarLogin />
@@ -74,9 +95,10 @@ const BookMark = () => {
           <h1 className="bookmark">Bookmark</h1>
         </div>
         <div className="container">
+          <ToastUnbookmark show={showToast} setShow={setShowToast} />
           {bookmarks?.length !== 0 ? (
             <div className="row row-cols-1 row-cols-md-4 g-4">
-              {bookmarks?.map((item) => (
+              {bookmarks?.map((item, index) => (
                 <div className="col pt-4">
                   <div className="card h-100">
                     <img
@@ -89,14 +111,35 @@ const BookMark = () => {
                     <div className="card-body">
                       <div className="row">
                         <div className="col-10">
-                          <h5 className="card-title">{item?.journey.title}</h5>
+                          <div
+                            onClick={() => {
+                              navigate(`/detail/${item.id}`);
+                            }}
+                            key={index}
+                          >
+                            <h5 className="title-card">
+                              {item?.journey.title.slice(0, 30)}...
+                            </h5>
+                            <h5 className="author float-start">
+                              {item?.user.fullname}
+                            </h5>
+                          </div>
                         </div>
-                        <div className="col-2">
+                        <div
+                          className="col-2"
+                          style={{ zIndex: "1" }}
+                          onClick={() => {
+                            handleDelete(item.id);
+                            setShowToast(true);
+                          }}
+                        >
                           <BiBookmark />
                         </div>
                       </div>
 
-                      <p className="card-text">{item?.journey.descriptions}</p>
+                      <p className="desc-card">
+                        {item?.journey.descriptions.slice(0, 30)}... readmore
+                      </p>
                     </div>
                   </div>
                 </div>

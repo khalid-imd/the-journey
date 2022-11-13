@@ -71,7 +71,7 @@ const Login = ({ show, setShow, setShowRegister }) => {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter yout email"
+                placeholder="Enter your email"
                 autoFocus
                 name="email"
                 value={form?.email}
@@ -94,7 +94,15 @@ const Login = ({ show, setShow, setShowRegister }) => {
             </Form.Group>
           </Form>
           <p>
-            Don't have an account? <strong>click here</strong>
+            Don't have an account?{" "}
+            <strong
+              onClick={() => {
+                setShow(false);
+                setShowRegister(true);
+              }}
+            >
+              click here
+            </strong>
           </p>
           <Button
             onClick={(e) => {

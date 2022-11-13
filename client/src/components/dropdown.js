@@ -10,7 +10,7 @@ const DropdownProfile = () => {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle>
+        <Dropdown.Toggle variant="bg-none">
           <img width="25px" src={IconProfile} alt="" />
         </Dropdown.Toggle>
         <Dropdown.Menu>

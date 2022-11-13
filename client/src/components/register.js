@@ -4,10 +4,8 @@ import { useMutation } from "react-query";
 import { API } from "../config/api";
 
 const Register = ({ show, setShow, setShowLogin }) => {
-  // const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
-  // const handleShow = () => setShow(true);
+  const handleShow = () => setShow(true);
 
   const [message, setMessage] = useState(null);
 
@@ -127,7 +125,15 @@ const Register = ({ show, setShow, setShowLogin }) => {
             </Form.Group>
           </Form>
           <p>
-            Already have an account? <strong>click here</strong>
+            Already have an account?{" "}
+            <strong
+              onClick={() => {
+                setShow(false);
+                setShowLogin(true);
+              }}
+            >
+              click here
+            </strong>
           </p>
           <Button
             type="submit"

@@ -7,13 +7,15 @@ import { useQuery } from "react-query";
 import { API } from "../config/api";
 import { BiBookmark } from "react-icons/bi";
 import { UserContext } from "../context/userContext";
+import ToastBookmark from "../atoms/toast-bookmark";
 
 const IndexLogin = () => {
+  const [showToast, setShowToast] = useState(false);
+
   const handleSubmit = async (item) => {
     try {
       const data = await API.post("/bookmark", { journey_id: item.id });
       console.log(item);
-      alert("bookmarking success");
     } catch (error) {
       console.log(error);
     }
@@ -56,6 +58,7 @@ const IndexLogin = () => {
           </Button>
         </Form>
         <div className="container">
+          <ToastBookmark show={showToast} setShow={setShowToast} />
           {journeys?.length !== 0 ? (
             <div className="row row-cols-1 row-cols-md-4 g-4">
               {journeys
@@ -81,7 +84,9 @@ const IndexLogin = () => {
                               }}
                               key={index}
                             >
-                              <h5 className="title-card">{item?.title}</h5>
+                              <h5 className="title-card">
+                                {item?.title.slice(0, 20)}...
+                              </h5>
                               <h5 className="author float-start">
                                 {item?.user.fullname}
                               </h5>
@@ -89,14 +94,19 @@ const IndexLogin = () => {
                           </div>
                           <div
                             className="col-2"
-                            onClick={() => handleSubmit(item)}
+                            onClick={() => {
+                              handleSubmit(item);
+                              setShowToast(true);
+                            }}
                             style={{ zIndex: "1" }}
                           >
                             <BiBookmark />
                           </div>
                         </div>
 
-                        <p className="desc-card">{item?.descriptions}</p>
+                        <p className="desc-card">
+                          {item?.descriptions.slice(0, 30)}... readmore
+                        </p>
                       </div>
                     </div>
                   </div>

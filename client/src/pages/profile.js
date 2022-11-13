@@ -75,8 +75,11 @@ const Profile = () => {
                           <BiBookmark />
                         </div>
                       </div>
-
-                      <p className="desc-card">{item?.descriptions}</p>
+                      <div>
+                        <p className="desc-card">
+                          {item?.descriptions.slice(0, 30)}... readmore
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
