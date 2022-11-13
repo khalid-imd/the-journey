@@ -102,6 +102,7 @@ const BookMark = () => {
                 <div className="col pt-4">
                   <div className="card h-100">
                     <img
+                      style={{ minHeight: "50%", maxHeight: "50%" }}
                       src={
                         "http://localhost:5000/uploads/" + item?.journey.image
                       }
@@ -116,9 +117,10 @@ const BookMark = () => {
                               navigate(`/detail/${item.id}`);
                             }}
                             key={index}
+                            style={{ cursor: "pointer" }}
                           >
                             <h5 className="title-card">
-                              {item?.journey.title.slice(0, 30)}...
+                              {item?.journey.title.slice(0, 15)}...
                             </h5>
                             <h5 className="author float-start">
                               {item?.user.fullname}

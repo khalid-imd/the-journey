@@ -11,16 +11,13 @@ import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [state, dispatch] = useContext(UserContext);
-  let { data: journeys, refetch } = useQuery(
-    "journeysProfileCache",
-    async () => {
-      const response = await API.get("/journeys");
-      const responseProfile = response.data.data.filter(
-        (p) => p.user.id == state.user.id
-      );
-      return responseProfile;
-    }
-  );
+  let { data: journeys, refetch } = useQuery("ProfileCache", async () => {
+    const response = await API.get("/journeys");
+    const responseProfile = response.data.data.filter(
+      (p) => p.user.id == state.user.id
+    );
+    return responseProfile;
+  });
 
   useEffect(() => {
     refetch();
@@ -55,7 +52,12 @@ const Profile = () => {
               {journeys?.map((item, index) => (
                 <div className="col pt-4">
                   <div className="card h-100">
-                    <img src={item?.image} className="card-img-top" alt="..." />
+                    <img
+                      src={item?.image}
+                      style={{ minHeight: "50%", maxHeight: "50%" }}
+                      className="card-img-top"
+                      alt="..."
+                    />
                     <div className="card-body">
                       <div className="row mb-2">
                         <div className="col-10">
@@ -64,6 +66,7 @@ const Profile = () => {
                               navigate(`/detail/${item.id}`);
                             }}
                             key={index}
+                            style={{ cursor: "pointer" }}
                           >
                             <h5 className="title-card">{item?.title}</h5>
                             <h5 className="author float-start">
@@ -77,7 +80,7 @@ const Profile = () => {
                       </div>
                       <div>
                         <p className="desc-card">
-                          {item?.descriptions.slice(0, 30)}... readmore
+                          {item?.descriptions.slice(0, 15)}... readmore
                         </p>
                       </div>
                     </div>

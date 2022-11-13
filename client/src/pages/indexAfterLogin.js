@@ -24,7 +24,7 @@ const IndexLogin = () => {
   const [state] = useContext(UserContext);
   const [query, setQuery] = useState("");
 
-  let { data: journeys, refetch } = useQuery("journeCache", async () => {
+  let { data: journeys, refetch } = useQuery("journeyCache", async () => {
     const response = await API.get("/journeys");
     return response.data.data;
   });
@@ -71,6 +71,7 @@ const IndexLogin = () => {
                   <div className="col pt-4">
                     <div className="card h-100">
                       <img
+                        style={{ minHeight: "50%", maxHeight: "50%" }}
                         src={item?.image}
                         className="card-img-top"
                         alt="..."
@@ -83,6 +84,7 @@ const IndexLogin = () => {
                                 navigate(`/detail/${item.id}`);
                               }}
                               key={index}
+                              style={{ cursor: "pointer" }}
                             >
                               <h5 className="title-card">
                                 {item?.title.slice(0, 20)}...

@@ -54,6 +54,7 @@ const Index = () => {
                     <div className="card h-100">
                       <img
                         src={item?.image}
+                        style={{ minHeight: "50%", maxHeight: "50%" }}
                         className="card-img-top"
                         alt="..."
                       />
@@ -61,7 +62,10 @@ const Index = () => {
                         <div className="row mb-2">
                           <div className="col-10">
                             <div>
-                              <h5 className="title-card">
+                              <h5
+                                className="title-card"
+                                style={{ cursor: "pointer" }}
+                              >
                                 {item?.title.slice(0, 20)}...
                               </h5>
                               <h5 className="author float-start">
