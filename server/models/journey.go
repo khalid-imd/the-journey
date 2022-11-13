@@ -16,6 +16,7 @@ type JourneyResponse struct {
 	UserId      string       `json:"user_id"`
 	User        UserResponse `json:"user"`
 	Description string       `json:"descriptions"`
+	Image       string       `json:"image"`
 }
 
 func (JourneyResponse) TableName() string {

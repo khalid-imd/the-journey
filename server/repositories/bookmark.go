@@ -33,7 +33,7 @@ func (r *repository) FindBookmarks() ([]models.Bookmark, error) {
 
 func (r *repository) GetBookmark(ID int) (models.Bookmark, error) {
 	var bookmark models.Bookmark
-	err := r.db.Preload("User").Preload("Journey.User").First(&bookmark.ID).Error
+	err := r.db.Preload("User").Preload("Journey.User").First(&bookmark, ID).Error
 
 	return bookmark, err
 }

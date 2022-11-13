@@ -25,7 +25,7 @@ func (h *handlerBookmark) CreateBookmark(w http.ResponseWriter, r *http.Request)
 	w.Header().Set("Content-Type", "application/json")
 
 	userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
-	userId := int(userInfo["id"].(float64))
+	userId := int(userInfo["user_id"].(float64))
 
 	var request bookmarkdto.BookmarkRequest
 	err := json.NewDecoder(r.Body).Decode(&request)

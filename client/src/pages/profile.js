@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./profile.css";
 import { Card, Container } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
@@ -12,13 +12,20 @@ import { BiBookmark } from "react-icons/bi";
 
 const Profile = () => {
   const [state, dispatch] = useContext(UserContext);
-  let { data: journeys } = useQuery("journeysCache", async () => {
-    const response = await API.get("/journeys");
-    const responseProfile = response.data.data.filter(
-      (p) => p.user.id == state.user.id
-    );
-    return responseProfile;
-  });
+  let { data: journeys, refetch } = useQuery(
+    "journeysProfileCache",
+    async () => {
+      const response = await API.get("/journeys");
+      const responseProfile = response.data.data.filter(
+        (p) => p.user.id == state.user.id
+      );
+      return responseProfile;
+    }
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [state]);
 
   console.log(state);
   return (

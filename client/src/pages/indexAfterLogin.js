@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./indexAfterLogin.css";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import NavbarLogin from "../components/navbarLogin";
@@ -6,12 +6,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { API } from "../config/api";
 import { BiBookmark } from "react-icons/bi";
+import { UserContext } from "../context/userContext";
 
 const IndexLogin = () => {
-  let { data: journeys } = useQuery("journeysCache", async () => {
+  const [state] = useContext(UserContext);
+  let { data: journeys, refetch } = useQuery("journeCache", async () => {
     const response = await API.get("/journeys");
     return response.data.data;
   });
+
+  useEffect(() => {
+    refetch();
+  }, [state]);
 
   const navigate = useNavigate();
 
