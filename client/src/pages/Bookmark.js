@@ -6,6 +6,7 @@ import NavbarLogin from "../components/navbarLogin";
 import { UserContext } from "../context/userContext";
 import { useQuery } from "react-query";
 import { API } from "../config/api";
+import { BiBookmark } from "react-icons/bi";
 
 // const dataCard = [
 //   {
@@ -73,34 +74,43 @@ const BookMark = () => {
         <div className="mb-5">
           <h1 className="bookmark">Bookmark</h1>
         </div>
-        <div className="row">
-          {bookmarks?.map((item) => {
-            return (
-              <div className="col-lg-3 col-md-6 mb-5">
-                <Card h-100>
-                  <Card.Img
-                    variant="top"
-                    src={"http://localhost:5000/uploads/" + item?.journey.image}
-                  />
-                  <Card.Body>
-                    <Card.Title className="title-card">
-                      {item?.journey.title}
-                    </Card.Title>
-                    <p className="date-card">
-                      {/* {item.Date} - {item.Author}{" "} */}
-                    </p>
-                    <Card.Text className="desc-card">
-                      {item?.journey.descriptions}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </div>
-            );
-          })}
+        <div className="container">
+          {bookmarks?.length !== 0 ? (
+            <div className="row row-cols-1 row-cols-md-4 g-4">
+              {bookmarks?.map((item) => (
+                <div className="col pt-4">
+                  <div className="card h-100">
+                    <img
+                      src={
+                        "http://localhost:5000/uploads/" + item?.journey.image
+                      }
+                      className="card-img-top"
+                      alt="..."
+                    />
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-10">
+                          <h5 className="card-title">{item?.journey.title}</h5>
+                        </div>
+                        <div className="col-2">
+                          <BiBookmark />
+                        </div>
+                      </div>
+
+                      <p className="card-text">{item?.journey.descriptions}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div>
+              <h1>You haven't bookmark any journal yet...</h1>
+            </div>
+          )}
         </div>
       </Container>
     </div>
   );
 };
-
 export default BookMark;

@@ -18,7 +18,7 @@ function NavBar() {
     <div>
       <Navbar expand="lg">
         <Container>
-          <Link to="/home">
+          <Link to="/">
             <Navbar.Brand>
               <img
                 src={Icon}

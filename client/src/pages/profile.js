@@ -4,7 +4,7 @@ import { Card, Container } from "react-bootstrap";
 import CardImage from "../assets/index-card-image.png";
 import UserIcon from "../assets/profile-user.png";
 import NavbarLogin from "../components/navbarLogin";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { API } from "../config/api";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/userContext";

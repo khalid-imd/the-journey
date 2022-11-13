@@ -55,7 +55,7 @@ function Editor() {
       console.log(formData);
       formData.set("title", form.title);
       formData.set("image", form.image[0], form.image[0]?.name);
-      formData.set("description", form.description);
+      formData.set("description", form.descriptions);
 
       const data = await API.post("/journey", formData, {
         headers: {
