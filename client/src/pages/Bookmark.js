@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import "./bookmark.css";
-import { Card, Container } from "react-bootstrap";
-import CardImage from "../assets/index-card-image.png";
+import { Container } from "react-bootstrap";
 import NavbarLogin from "../components/navbarLogin";
 import { UserContext } from "../context/userContext";
 import { useQuery } from "react-query";
@@ -70,7 +69,7 @@ const BookMark = () => {
   return (
     <div>
       <NavbarLogin />
-      <Container className="mt-5">
+      <Container className="mt-5 mb-5">
         <div className="mb-5">
           <h1 className="bookmark">Bookmark</h1>
         </div>

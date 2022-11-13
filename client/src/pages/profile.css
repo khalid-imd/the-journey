@@ -29,8 +29,11 @@
 .desc-card {
   font-family: "Product Sans";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
 
   color: #6c6c6c;
 }
@@ -48,4 +51,13 @@
   font-weight: 400;
   font-size: 18px;
   color: #6c6c6c;
+}
+
+.author {
+  font-family: "Product Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+
+  color: #bfbfbf;
 }

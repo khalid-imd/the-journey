@@ -105,17 +105,13 @@ function Editor() {
             </div>
           </div>
           <div className="col-lg-12 order-lg-2 order-3 pb-5">
-            <FloatingLabel
-              controlId="floatingTextarea2"
-              label="Journey Descriptions"
-            >
-              <Form.Control
-                type="textarea"
-                style={{ height: "300px" }}
-                name="descriptions"
-                onChange={handleOnChange}
-              />
-            </FloatingLabel>
+            <FormLabel className="journey-title"> Description </FormLabel>
+            <textarea
+              onChange={handleOnChange}
+              style={{ height: "300px" }}
+              name="descriptions"
+              className="col-12"
+            ></textarea>
 
             <Button
               type="submit"

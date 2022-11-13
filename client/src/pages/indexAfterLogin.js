@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./indexAfterLogin.css";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import NavbarLogin from "../components/navbarLogin";
-import { Link, useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
 import { API } from "../config/api";
 import { BiBookmark } from "react-icons/bi";
 import { UserContext } from "../context/userContext";
@@ -20,6 +20,8 @@ const IndexLogin = () => {
   };
 
   const [state] = useContext(UserContext);
+  const [query, setQuery] = useState("");
+
   let { data: journeys, refetch } = useQuery("journeCache", async () => {
     const response = await API.get("/journeys");
     return response.data.data;
@@ -34,7 +36,7 @@ const IndexLogin = () => {
   return (
     <div>
       <NavbarLogin />
-      <Container className="mt-5">
+      <Container className="mt-5 mb-5">
         <div className="mb-4">
           <h1 className="journey">Journey</h1>
         </div>
@@ -46,9 +48,9 @@ const IndexLogin = () => {
               placeholder="Search"
               aria-label="Search"
               aria-describedby="search-addon"
+              onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-
           <Button type="button" className=" col-2 btn-primary">
             search
           </Button>
@@ -56,35 +58,49 @@ const IndexLogin = () => {
         <div className="container">
           {journeys?.length !== 0 ? (
             <div className="row row-cols-1 row-cols-md-4 g-4">
-              {journeys?.map((item, index) => (
-                <div className="col pt-4">
-                  <div className="card h-100">
-                    <img src={item?.image} className="card-img-top" alt="..." />
-                    <div className="card-body">
-                      <div className="row">
-                        <div
-                          className="col-10"
-                          onClick={() => {
-                            navigate(`/detail/${item.id}`);
-                          }}
-                          key={index}
-                        >
-                          <h5 className="card-title">{item?.title}</h5>
+              {journeys
+                ?.filter((item) => {
+                  return query.toLocaleLowerCase() === ""
+                    ? item
+                    : item.title.toLocaleLowerCase().includes(query);
+                })
+                .map((item, index) => (
+                  <div className="col pt-4">
+                    <div className="card h-100">
+                      <img
+                        src={item?.image}
+                        className="card-img-top"
+                        alt="..."
+                      />
+                      <div className="card-body">
+                        <div className="row mb-2">
+                          <div className="col-10">
+                            <div
+                              onClick={() => {
+                                navigate(`/detail/${item.id}`);
+                              }}
+                              key={index}
+                            >
+                              <h5 className="title-card">{item?.title}</h5>
+                              <h5 className="author float-start">
+                                {item?.user.fullname}
+                              </h5>
+                            </div>
+                          </div>
+                          <div
+                            className="col-2"
+                            onClick={() => handleSubmit(item)}
+                            style={{ zIndex: "1" }}
+                          >
+                            <BiBookmark />
+                          </div>
                         </div>
-                        <div
-                          className="col-2"
-                          onClick={() => handleSubmit(item)}
-                          style={{ zIndex: "1" }}
-                        >
-                          <BiBookmark />
-                        </div>
-                      </div>
 
-                      <p className="card-text">{item?.descriptions}</p>
+                        <p className="desc-card">{item?.descriptions}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           ) : (
             <div>

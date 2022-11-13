@@ -1,14 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import "./profile.css";
-import { Card, Container } from "react-bootstrap";
-import CardImage from "../assets/index-card-image.png";
+import { Container } from "react-bootstrap";
 import UserIcon from "../assets/profile-user.png";
 import NavbarLogin from "../components/navbarLogin";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { API } from "../config/api";
-import { Link } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import { BiBookmark } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [state, dispatch] = useContext(UserContext);
@@ -28,10 +27,13 @@ const Profile = () => {
   }, [state]);
 
   console.log(state);
+
+  const navigate = useNavigate();
+
   return (
     <div>
       <NavbarLogin />
-      <Container className="mt-5">
+      <Container className="mt-5 mb-5">
         <div className="mb-5">
           <h1 className="bookmark">Profile</h1>
         </div>
@@ -50,21 +52,31 @@ const Profile = () => {
         <div className="container">
           {journeys?.length !== 0 ? (
             <div className="row row-cols-1 row-cols-md-4 g-4">
-              {journeys?.map((item) => (
+              {journeys?.map((item, index) => (
                 <div className="col pt-4">
                   <div className="card h-100">
                     <img src={item?.image} className="card-img-top" alt="..." />
                     <div className="card-body">
-                      <div className="row">
+                      <div className="row mb-2">
                         <div className="col-10">
-                          <h5 className="card-title">{item?.title}</h5>
+                          <div
+                            onClick={() => {
+                              navigate(`/detail/${item.id}`);
+                            }}
+                            key={index}
+                          >
+                            <h5 className="title-card">{item?.title}</h5>
+                            <h5 className="author float-start">
+                              {item?.user.fullname}
+                            </h5>
+                          </div>
                         </div>
                         <div className="col-2">
                           <BiBookmark />
                         </div>
                       </div>
 
-                      <p className="card-text">{item?.descriptions}</p>
+                      <p className="desc-card">{item?.descriptions}</p>
                     </div>
                   </div>
                 </div>
@@ -72,7 +84,7 @@ const Profile = () => {
             </div>
           ) : (
             <div>
-              <h1>You haven't journal yet...</h1>
+              <h1>You have no journal yet...</h1>
             </div>
           )}
         </div>

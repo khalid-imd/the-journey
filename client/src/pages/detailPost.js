@@ -32,9 +32,7 @@ const Detail = () => {
           <img src={journey?.image} width="75%" alt="" />
         </div>
         <div>
-          <div>
-            <h2>ini sub title</h2>
-          </div>
+          <div></div>
           <div className="justify">{journey?.descriptions}</div>
         </div>
       </Container>

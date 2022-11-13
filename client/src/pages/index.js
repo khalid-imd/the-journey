@@ -5,6 +5,7 @@ import Jumbotron from "../components/jumbotron";
 import { useQuery } from "react-query";
 import { API } from "../config/api";
 import Login from "../components/login";
+import { BiBookmark } from "react-icons/bi";
 
 const Index = () => {
   let { data: journeys } = useQuery("journeysCache", async () => {
@@ -17,7 +18,7 @@ const Index = () => {
   return (
     <div>
       <Jumbotron />
-      <Container className="mt-5">
+      <Container className="mt-5 mb-5">
         <div className="mb-4">
           <h1 className="journey">Journey</h1>
         </div>
@@ -39,25 +40,33 @@ const Index = () => {
         <div className="container">
           {journeys?.length !== 0 ? (
             <div className="row row-cols-1 row-cols-md-4 g-4">
-              {journeys?.map((item) => (
+              {journeys?.map((item, index) => (
                 <div className="col pt-4" onClick={() => setShowLogin(true)}>
                   <div className="card h-100">
                     <img src={item?.image} className="card-img-top" alt="..." />
                     <div className="card-body">
-                      <div className="row">
+                      <div className="row mb-2">
                         <div className="col-10">
-                          <h5 className="card-title">{item?.title}</h5>
+                          <div>
+                            <h5 className="title-card">{item?.title}</h5>
+                            <h5 className="author float-start">
+                              {item?.user.fullname}
+                            </h5>
+                          </div>
+                        </div>
+                        <div className="col-2">
+                          <BiBookmark />
                         </div>
                       </div>
 
-                      <p className="card-text">{item?.descriptions}</p>
+                      <p className="desc-card">{item?.descriptions}</p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div>Halo halo haloooooooooo</div>
+            <h1>There's no journal yet...</h1>
           )}
         </div>
       </Container>
