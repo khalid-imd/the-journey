@@ -112,7 +112,7 @@ function Editor() {
               <Form.Control
                 type="textarea"
                 style={{ height: "300px" }}
-                name="description"
+                name="descriptions"
                 onChange={handleOnChange}
               />
             </FloatingLabel>

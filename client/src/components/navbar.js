@@ -18,17 +18,15 @@ function NavBar() {
     <div>
       <Navbar expand="lg">
         <Container>
-          <Link to="/">
-            <Navbar.Brand>
-              <img
-                src={Icon}
-                width="160"
-                height="45"
-                className="d-inline-block align-top"
-                alt="React Bootstrap logo"
-              />
-            </Navbar.Brand>
-          </Link>
+          <Navbar.Brand>
+            <img
+              src={Icon}
+              width="160"
+              height="45"
+              className="d-inline-block align-top"
+              alt="React Bootstrap logo"
+            />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav

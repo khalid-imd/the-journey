@@ -38,6 +38,8 @@ const Register = ({ show, setShow, setShowLogin }) => {
         <Alert variant="success">Berhasil mendaftarkan akun!</Alert>
       );
       setMessage(alert);
+      setShow(false);
+      setShowLogin(true);
       console.log("", response);
     } catch (error) {
       const alert = (
